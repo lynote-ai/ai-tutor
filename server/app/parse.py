@@ -70,10 +70,6 @@ def parse_transcript(text: str, locator_prefix: str = "caption") -> list[dict]:
     return _finalize(_plain(text, locator_prefix=locator_prefix))
 
 
-def parse_transcript(text: str, locator_prefix: str = "caption") -> list[dict]:
-    return _finalize(_plain(text, locator_prefix=locator_prefix))
-
-
 def parse_upload(name: str, data: bytes) -> list[dict]:
     if len(data) > MAX_UPLOAD_BYTES:
         raise ParseError("Each file needs to be 20 MB or smaller.")
