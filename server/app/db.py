@@ -88,6 +88,19 @@ def execute(sql: str, params: tuple = ()) -> None:
         _db().commit()
 
 
+
+def execute_batch(statements: list[tuple[str, tuple]]) -> None:
+    """Execute multiple SQL statements in one transaction with rollback on error."""
+    with _lock:
+        try:
+            for sql, params in statements:
+                _db().execute(sql, params)
+            _db().commit()
+        except Exception:
+            _db().rollback()
+            raise
+
+
 def query_all(sql: str, params: tuple = ()) -> list[dict]:
     with _lock:
         rows = _db().execute(sql, params).fetchall()
